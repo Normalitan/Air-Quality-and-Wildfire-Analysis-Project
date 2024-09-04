@@ -12,11 +12,8 @@ This project continues to analyze the relationship between wildfires and air qua
 5. SteamLit.py: Streamlit application for interactive visualization and analysis of the data.
 
 ## Objectives
-1. Integrate data from multiple APIs to compare consistency across data sources.
-Analyze air quality trends in the US Northeast Coast, focusing on the impact of recent Canadian wildfires.
-Develop a predictive model to assess air quality based on wildfire trends.
-Identify potential environmental risks and predict future wildfires.
-Examine how neighboring counties are affected by wildfires and changes in air quality.
+- Integrate data from multiple APIs to compare consistency across data sources.
+- Analyze air quality trends in the US Northeast Coast, focusing on the impact of June 7th Canadian wildfire.
 
 ## Key Features
 Data collection from EPA and NASA FIRMS APIs
@@ -28,7 +25,7 @@ Interactive Streamlit application for data exploration and visualization
 
 ## Streamlit Application
 The Streamlit app (SteamLit.py) provides an interactive interface for:
-1. Visualizing wildfire detections in the US and Canada
+1. Visualizing wildfire detections across the US and Canada
 2. Analyzing air quality data for specific pollutants (PM2.5, CO, NO2, Ozone)
 3. Exploring correlations between different air pollutants
 4. Viewing summary statistics and raw data for air quality measurements
