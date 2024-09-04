@@ -6,10 +6,10 @@ This project continues to analyze the relationship between wildfires and air qua
 
 ## Files
 1. EPA API.ipynb: Jupyter notebook for fetching and processing EPA air quality data.
-FIRMS API NASA.ipynb: Jupyter notebook for fetching and processing NASA FIRMS wildfire data.
-NASA FIRMS EDA.ipynb: Exploratory Data Analysis of the NASA FIRMS wildfire data.
-EPA EDA.ipynb: Exploratory Data Analysis of the EPA air quality data.
-SteamLit.py: Streamlit application for interactive visualization and analysis of the data.
+2. FIRMS API NASA.ipynb: Jupyter notebook for fetching and processing NASA FIRMS wildfire data.
+3. NASA FIRMS EDA.ipynb: Exploratory Data Analysis of the NASA FIRMS wildfire data.
+4. EPA EDA.ipynb: Exploratory Data Analysis of the EPA air quality data.
+5. SteamLit.py: Streamlit application for interactive visualization and analysis of the data.
 
 ## Objectives
 1. Integrate data from multiple APIs to compare consistency across data sources.
