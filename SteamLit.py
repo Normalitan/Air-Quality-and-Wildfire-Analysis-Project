@@ -172,7 +172,7 @@ pollutant_data = {
 }
 
 # Define target counties
-target_counties = ['New York', 'Philadelphia', 'District of Columbia', 'Suffolk']
+target_counties = ['Norfolk', 'Philadelphia', 'District of Columbia', 'Suffolk']
 
 # Define date range (3 days before and after the selected date)
 date_range = pd.date_range(start=analysis_date - pd.Timedelta(days=3), 
@@ -193,7 +193,7 @@ axs = axs.flatten()
 # Plot for each pollutant
 for i, (pollutant, data) in enumerate(filtered_data.items()):
     conc_column = pollutant_data[pollutant][1]
-    sns.lineplot(data=data, x='Date', y=conc_column, hue='County', marker='o', ax=axs[i])
+    sns.lineplot(data=data, x='Date', y=conc_column, hue='County', marker='o', ax=axs[i], ci=None)  # Add ci=None here
     axs[i].set_title(f'{pollutant} Levels')
     axs[i].set_xlabel('Date')
     axs[i].set_ylabel('Concentration')
@@ -204,14 +204,14 @@ for i, (pollutant, data) in enumerate(filtered_data.items()):
 plt.tight_layout()
 st.pyplot(fig)
 
-# Display summary statistics
+# summary statistics
 st.subheader("Summary Statistics")
 selected_pollutant = st.selectbox("Select a pollutant to view summary statistics", list(pollutant_data.keys()))
 conc_column = pollutant_data[selected_pollutant][1]
 summary_stats = filtered_data[selected_pollutant].groupby('County')[conc_column].describe()
 st.write(summary_stats)
 
-# Display raw data
+# raw data
 st.subheader("Raw Air Quality Data")
 selected_pollutant_raw = st.selectbox("Select a pollutant to view raw data", list(pollutant_data.keys()))
 st.write(filtered_data[selected_pollutant_raw])
