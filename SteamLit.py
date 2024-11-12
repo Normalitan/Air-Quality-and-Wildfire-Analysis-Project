@@ -152,48 +152,51 @@ if modis_data is not None and viirs_data is not None:
 # Air Quality Analysis Section
 st.title("Air Quality Analysis")
 
-# Load refined data for all pollutants
-base_path = get_relative_path('Data', 'EPA')
-pm25_data = pd.read_csv(os.path.join(base_path, '2.5', 'combined_2.5_data.csv'))
-co_data = pd.read_csv(os.path.join(base_path, 'CO', 'combined_co_data.csv'))
-no2_data = pd.read_csv(os.path.join(base_path, 'NO2', 'combined_no2_data.csv'))
-ozone_data = pd.read_csv(os.path.join(base_path, 'Ozone', 'combined_ozone_data.csv'))
+# Dictionary to map pollutant names to their concentration column names
+concentration_columns = {
+    'PM2.5': 'Daily Mean PM2.5 Concentration',
+    'CO': 'Daily Max 8-hour CO Concentration',
+    'NO2': 'Daily Max 1-hour NO2 Concentration',
+    'Ozone': 'Daily Max 8-hour Ozone Concentration'
+}
 
-# Convert Date columns to datetime format
-for df in [pm25_data, co_data, no2_data, ozone_data]:
+# Function to load and preprocess data
+def load_and_preprocess(file_path, pollutant_name):
+    df = pd.read_csv(file_path)
     df['Date'] = pd.to_datetime(df['Date'])
+    
+    # Rename Suffolk to Boston
+    df.loc[df['County'] == 'Suffolk', 'County'] = 'Boston'
+    
+    concentration_column = concentration_columns[pollutant_name]
+    df = df[['Date', 'County', concentration_column]]
+    df = df.rename(columns={concentration_column: pollutant_name})
+    return df
 
-# Create pollutant_data dictionary with correct column names
-pollutant_data = {
-    'PM2.5': (pm25_data, 'Daily Mean PM2.5 Concentration'),
-    'CO': (co_data, 'Daily Max 8-hour CO Concentration'),
-    'NO2': (no2_data, 'Daily Max 1-hour NO2 Concentration'),
-    'Ozone': (ozone_data, 'Daily Max 8-hour Ozone Concentration')
-}
+# Load data for all pollutants
+base_path = get_relative_path('Data', 'EPA')
+pm25_data = load_and_preprocess(os.path.join(base_path, 'PM2.5', 'combined_pm2.5_data.csv'), 'PM2.5')
+co_data = load_and_preprocess(os.path.join(base_path, 'CO', 'combined_co_data.csv'), 'CO')
+no2_data = load_and_preprocess(os.path.join(base_path, 'NO2', 'combined_no2_data.csv'), 'NO2')
+ozone_data = load_and_preprocess(os.path.join(base_path, 'Ozone', 'combined_ozone_data.csv'), 'Ozone')
 
-# Define target counties
-target_counties = ['Norfolk', 'Philadelphia', 'District of Columbia', 'Suffolk']
+# Merge all datasets
+merged_data = ozone_data.merge(co_data, on=['Date', 'County'], how='outer')
+merged_data = merged_data.merge(no2_data, on=['Date', 'County'], how='outer')
+merged_data = merged_data.merge(pm25_data, on=['Date', 'County'], how='outer')
 
-# Define date range (3 days before and after the selected date)
+# Filter data for the analysis date range (3 days before and after)
 date_range = pd.date_range(start=analysis_date - pd.Timedelta(days=3), 
-                           end=analysis_date + pd.Timedelta(days=3))
-
-# Filter data for the date range and target counties
-filtered_data = {
-    pollutant: df[
-        (df['Date'].dt.date.isin(date_range.date)) & 
-        (df['County'].isin(target_counties))
-    ] for pollutant, (df, _) in pollutant_data.items()
-}
+                          end=analysis_date + pd.Timedelta(days=3))
+filtered_data = merged_data[merged_data['Date'].isin(date_range)]
 
 # Create a 2x2 subplot
 fig, axs = plt.subplots(2, 2, figsize=(14, 10))
 axs = axs.flatten()
 
 # Plot for each pollutant
-for i, (pollutant, data) in enumerate(filtered_data.items()):
-    conc_column = pollutant_data[pollutant][1]
-    sns.lineplot(data=data, x='Date', y=conc_column, hue='County', marker='o', ax=axs[i], ci=None)  # Add ci=None here
+for i, pollutant in enumerate(['Ozone', 'CO', 'NO2', 'PM2.5']):
+    sns.lineplot(data=filtered_data, x='Date', y=pollutant, hue='County', marker='o', ax=axs[i], ci=None)
     axs[i].set_title(f'{pollutant} Levels')
     axs[i].set_xlabel('Date')
     axs[i].set_ylabel('Concentration')
@@ -206,15 +209,14 @@ st.pyplot(fig)
 
 # summary statistics
 st.subheader("Summary Statistics")
-selected_pollutant = st.selectbox("Select a pollutant to view summary statistics", list(pollutant_data.keys()))
-conc_column = pollutant_data[selected_pollutant][1]
-summary_stats = filtered_data[selected_pollutant].groupby('County')[conc_column].describe()
+selected_pollutant = st.selectbox("Select a pollutant to view summary statistics", ['Ozone', 'CO', 'NO2', 'PM2.5'])
+summary_stats = filtered_data.groupby('County')[selected_pollutant].describe()
 st.write(summary_stats)
 
 # raw data
 st.subheader("Raw Air Quality Data")
-selected_pollutant_raw = st.selectbox("Select a pollutant to view raw data", list(pollutant_data.keys()))
-st.write(filtered_data[selected_pollutant_raw])
+selected_pollutant_raw = st.selectbox("Select a pollutant to view raw data", ['Ozone', 'CO', 'NO2', 'PM2.5'], key='raw_data_selector')
+st.write(filtered_data[['Date', 'County', selected_pollutant_raw]])
 
 # Air Quality Correlation Analysis Section
 st.title("Air Quality Correlation Analysis")
