@@ -7,8 +7,8 @@ Download Data: https://drive.google.com/file/d/1Gz5400th6gRVkiTyDT3lro6Er8VE6-Uy
 This project continues to analyze the relationship between wildfires and air quality in the Northeastern United States in 4 counties (Norfol, Sulfolk, Philly, and District of Columbiaa), with a focus on the impact of Canadian wildfires around June 7th 2023. The project utilizes data from NASA's FIRMS (Fire Information for Resource Management System) and the EPA (Environmental Protection Agency) to explore correlations between wildfire occurrences and air quality measurements.
 
 ## Files
-1. EPA API.ipynb: Jupyter notebook for fetching and processing EPA air quality data.
-2. FIRMS API NASA.ipynb: Jupyter notebook for fetching and processing NASA FIRMS wildfire data.
+1. EPA API.ipynb: Jupyter notebook for fetching and processing EPA air quality data. (INCOMPLETE)
+2. FIRMS API NASA.ipynb: Jupyter notebook for fetching and processing NASA FIRMS wildfire data. (INCOMPLETE)
 3. NASA FIRMS EDA.ipynb: Exploratory Data Analysis of the NASA FIRMS wildfire data.
 4. EPA EDA.ipynb: Exploratory Data Analysis of the EPA air quality data.
 5. SteamLit.py: Streamlit application for interactive visualization and analysis of the data.
