@@ -1,4 +1,3 @@
-# TheFinal
 # Air Quality and Wildfire Analysis Project
 
 Download Data: https://drive.google.com/file/d/1Gz5400th6gRVkiTyDT3lro6Er8VE6-Uy/view?usp=sharing
