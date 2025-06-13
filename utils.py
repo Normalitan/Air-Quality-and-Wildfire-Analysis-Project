@@ -1,6 +1,13 @@
 # utils.py
 import pandas as pd
 from geopy.distance import geodesic
+import gdown
+import os
+
+def download_if_not_exists(local_path, file_id):
+    if not os.path.exists(local_path):
+        url = f"https://drive.google.com/uc?id=1Gz5400th6gRVkiTyDT3lro6Er8VE6-Uy"
+        gdown.download(url, local_path, quiet=False)
 
 # Target coordinates
 TARGET_COORDS = [
