@@ -3,11 +3,15 @@ import pandas as pd
 from geopy.distance import geodesic
 import gdown
 import os
+import zipfile
 
-def download_if_not_exists(local_path, file_id):
-    if not os.path.exists(local_path):
+def download_and_extract_if_needed(local_zip, extract_to, file_id):
+    if not os.path.exists(extract_to):
+        os.makedirs(extract_to, exist_ok=True)
         url = f"https://drive.google.com/uc?id=1Gz5400th6gRVkiTyDT3lro6Er8VE6-Uy"
-        gdown.download(url, local_path, quiet=False)
+        gdown.download(url, local_zip, quiet=False)
+        with zipfile.ZipFile(local_zip, 'r') as zip_ref:
+            zip_ref.extractall(extract_to)
 
 # Target coordinates
 TARGET_COORDS = [

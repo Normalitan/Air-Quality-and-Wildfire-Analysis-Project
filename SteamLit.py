@@ -2,8 +2,15 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from utils import load_data, is_close_to_target, TARGET_COORDS
+from utils import load_data, is_close_to_target, TARGET_COORDS, download_and_extract_if_needed
 import os
+
+# Download and extract wildfire data if missing
+download_and_extract_if_needed(
+    local_zip="wildfires_data.zip",
+    extract_to=get_relative_path("Data", "NASA wildfires"),
+    file_id="1Gz5400th6gRVkiTyDT3lro6Er8VE6-Uy"
+)
 
 # Get the current script's directory
 current_dir = os.path.dirname(os.path.abspath(__file__))
