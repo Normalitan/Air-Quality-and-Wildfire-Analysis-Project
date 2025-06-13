@@ -8,14 +8,13 @@ import os
 # Get the current script's directory
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Relative path
 def get_relative_path(*args):
     return os.path.join(current_dir, *args)
 
-# Download and extract wildfire data if missing
+# ✅ Call the download here, BEFORE any file reads
 download_and_extract_if_needed(
-    local_zip="wildfires_data.zip",
-    extract_to=current_dir,
+    local_zip="Data.zip",
+    extract_to=current_dir,  # This ensures /Data/ is created at app root
     file_id="1Gz5400th6gRVkiTyDT3lro6Er8VE6-Uy"
 )
 

@@ -4,10 +4,8 @@ import gdown
 import os
 import zipfile
 
-# Download and extract ZIP from Google Drive if folder doesn't exist
 def download_and_extract_if_needed(local_zip, extract_to, file_id):
-    if not os.path.exists(extract_to):
-        os.makedirs(extract_to, exist_ok=True)
+    if not os.path.exists(os.path.join(extract_to, "Data")):
         url = f"https://drive.google.com/uc?id={file_id}"
         gdown.download(url, local_zip, quiet=False)
         with zipfile.ZipFile(local_zip, 'r') as zip_ref:
