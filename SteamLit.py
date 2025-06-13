@@ -15,7 +15,7 @@ def get_relative_path(*args):
 # Download and extract wildfire data if missing
 download_and_extract_if_needed(
     local_zip="wildfires_data.zip",
-    extract_to=get_relative_path("Data"),
+    extract_to=current_dir,
     file_id="1Gz5400th6gRVkiTyDT3lro6Er8VE6-Uy"
 )
 
